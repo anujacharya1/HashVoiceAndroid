@@ -137,12 +137,13 @@ intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
  
  @Override
  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	 ArrayList<String> textMatchList = null;
   if (requestCode == VOICE_RECOGNITION_REQUEST_CODE)
  
    //If Voice recognition is successful then it returns RESULT_OK
    if(resultCode == RESULT_OK) {
  
-    ArrayList<String> textMatchList = data
+    textMatchList = data
     .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
  
     if (!textMatchList.isEmpty()) {
@@ -177,6 +178,13 @@ intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
     showToastMessage("Server Error");
    }
   super.onActivityResult(requestCode, resultCode, data);
+
+  
+  Intent resultIntent = new Intent();
+  resultIntent.putExtra(RecognizerIntent.EXTRA_RESULTS, textMatchList);
+  //TODO Add extras or a data URI to this intent as appropriate.
+  setResult(Activity.RESULT_OK, resultIntent);
+  //CameraMainActivity.this.onActivityResult(requestCode, resultCode, data);
  }
  /**
  * Helper method to show the toast message

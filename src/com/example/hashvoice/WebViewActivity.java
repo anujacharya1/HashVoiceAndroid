@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -22,8 +23,10 @@ import android.widget.Toast;
 public class WebViewActivity extends Activity {
  
 	private WebView webView;
-	static int started = 0;
+	 int started = 0;
 	private boolean state = false;
+	
+	private static final String TAG = "WebViewActivity";
  
     public String convertToString(InputStream inputStream){
         StringBuffer string = new StringBuffer();
@@ -36,10 +39,13 @@ public class WebViewActivity extends Activity {
         } catch (IOException e) {}
         return string.toString();
     }
+
+
     
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.webview);
+		started = 0;
  
 		
 		webView = (WebView) findViewById(R.id.webView1);
@@ -54,6 +60,7 @@ public class WebViewActivity extends Activity {
 		    public boolean shouldOverrideUrlLoading(WebView webview, String url){
 				
 		        webview.loadUrl(url);
+		        if(state == true) return true;
 		        HttpGet httpGet = new HttpGet(url);
 		        // this receives the response
 		        final HttpClient httpClient   = new DefaultHttpClient();
@@ -65,7 +72,7 @@ public class WebViewActivity extends Activity {
 		            //Toast.makeText(getApplicationContext(),"Resp " + response.getStatusLine().getStatusCode(),Toast.LENGTH_SHORT).show();
 		            //Toast.makeText(getApplicationContext(),"Resp " + json,Toast.LENGTH_SHORT).show();
 
-		            if (response.getStatusLine().getStatusCode() == 200) {
+		            //if (response.getStatusLine().getStatusCode() == 200) {
 		                // la conexion fue establecida, obtener el contenido
 		                HttpEntity entity = response.getEntity();
 		                if (entity != null) {
@@ -74,27 +81,36 @@ public class WebViewActivity extends Activity {
 		                    if(null != htmlContent) {
 		                    	//Toast.makeText(getApplicationContext(),"body " + htmlContent,Toast.LENGTH_LONG).show();
 		                    }
-		                    if (htmlContent.contains("Flickr") && htmlContent.contains("Welcome") && null != htmlContent) { 
+		                    
+		                    Log.d(TAG, htmlContent);
+		                    if (htmlContent.contains("Welcome to Flickr!") && null != htmlContent) { 
 		                    	//webView.loadData(htmlContent, "text/html", "utf-8");
-		                    	
-		                    	/*if(!started) {
-		                    	  Intent myIntent = new Intent(WebViewActivity.this, CameraMainActivity.class);
-		                    	  //myIntent.putExtra("key", value); //Optional parameters
-		                    	  WebViewActivity.this.startActivity(myIntent);
-		                    	  started = 
-		                    	}*/
-		                    	
+		                    	Thread thread = new Thread()
+		                    	{
+		                    	    @Override
+		                    	    public void run() {
+		                    	        try {
+		                    	            //while(true) {
+		                    	                sleep(5000);
+		                    	                 Intent myIntent = new Intent(WebViewActivity.this, CameraMainActivity.class);
+		      		                    	     //myIntent.putExtra("key", value); //Optional parameters
+		      		                    	     WebViewActivity.this.startActivity(myIntent);
+		      		                    	     state = true;
+		      		                    	     //Toast.makeText(getApplicationContext(),"Hurrrah!!! " + started,Toast.LENGTH_LONG).show();
+		                    	            //}
+		                    	        } catch (InterruptedException e) {
+		                    	            e.printStackTrace();
+		                    	        }
+		                    	    }
+		                    	};
+
+		                    	thread.start();
+		                    	  
 		                    }
 		                    started++;
 		                    Toast.makeText(getApplicationContext(),"Started val: " + started,Toast.LENGTH_LONG).show();
-		                    if(started >= 4 && !state) {
-		                    	  Intent myIntent = new Intent(WebViewActivity.this, CameraMainActivity.class);
-		                    	  //myIntent.putExtra("key", value); //Optional parameters
-		                    	  WebViewActivity.this.startActivity(myIntent);
-		                    	  state = true;
-		                    }
 		                }
-		            }
+		            //}
 		         } catch (IOException e) {
 		        	 Toast.makeText(getApplicationContext(),"----" + e.getMessage() ,Toast.LENGTH_SHORT).show();
 		         }
