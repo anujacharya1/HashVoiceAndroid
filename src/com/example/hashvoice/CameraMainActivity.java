@@ -21,9 +21,7 @@ import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.hashvoice.R;
@@ -33,7 +31,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
@@ -43,7 +40,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 
 public class CameraMainActivity extends Activity {
-	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
     final int TAKE_PICTURE = 1;
     final int GET_BEST_TAG_MATCH = 2;
     static int count = 0;
@@ -159,10 +155,12 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
     	                //post1("");
                   	     //Toast.makeText(getApplicationContext(),"Hurrrah!!! " + started,Toast.LENGTH_LONG).show();
     	            	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-    	                nameValuePairs.add(new BasicNameValuePair("image", mFileName));
+    	                nameValuePairs.add(new BasicNameValuePair("image",  mFileName ));
     	                Log.d("DEBUGxxxxxxxx",mFileName );
     	                nameValuePairs.add(new BasicNameValuePair("tags", mBestMatch));
+    	                nameValuePairs.add(new BasicNameValuePair("uid", count+""));
     	                post("http://50.59.22.188:17021/photo/", nameValuePairs);
+    	                count++;
     	            //}
     	        } catch (Exception e) {
     	            e.printStackTrace();
@@ -187,7 +185,6 @@ image 2nd POST parameter*/
 public void post1(String urls) {
 	try
 	{
-		String path = "file:///storage/emulated/0/Pic.jpg";
 		Log.d("DEBUGxxxxxxxx   2", "Hurrah" );
 		
         File photo = new File(Environment.getExternalStorageDirectory(),  "Pic.jpg");
@@ -270,6 +267,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
             if(nameValuePairs.get(index).getName().equalsIgnoreCase("image")) {
                 // If the key equals to "image", we use FileBody to transfer the data
                 //entity.addPart(nameValuePairs.get(index).getName(), new FileBody(new File (nameValuePairs.get(index).getValue())));
+            	Log.d("Post Multipart XXXXX", "  " + nameValuePairs.get(index).getValue());
                 entity.addPart(nameValuePairs.get(index).getName(), new FileBody(new File (Environment.getExternalStorageDirectory(), "Pic.jpg")));
             } else {
                 // Normal string data

@@ -13,6 +13,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -55,6 +56,14 @@ public class WebViewActivity extends Activity {
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy); 
 		
+		// Must be after loadUrl!
+		webView.setBackgroundColor(0x00000000); // transparent RGB
+		webView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
+
+        // Put background image in res/drawable/splash.jpg
+        Drawable theSplash = getResources().getDrawable(R.drawable.splash);
+        webView.setBackground(theSplash);
+		
 		webView.setWebViewClient(new WebViewClient() {
 			@Override
 		    public boolean shouldOverrideUrlLoading(WebView webview, String url){
@@ -82,7 +91,7 @@ public class WebViewActivity extends Activity {
 		                    	//Toast.makeText(getApplicationContext(),"body " + htmlContent,Toast.LENGTH_LONG).show();
 		                    }
 		                    
-		                    Log.d(TAG, htmlContent);
+		                    //Log.d(TAG, htmlContent);
 		                    if (htmlContent.contains("Welcome to Flickr!") && null != htmlContent) { 
 		                    	//webView.loadData(htmlContent, "text/html", "utf-8");
 		                    	Thread thread = new Thread()
@@ -90,6 +99,7 @@ public class WebViewActivity extends Activity {
 		                    	    @Override
 		                    	    public void run() {
 		                    	        try {
+		                    	        	
 		                    	            //while(true) {
 		                    	                sleep(5000);
 		                    	                 Intent myIntent = new Intent(WebViewActivity.this, CameraMainActivity.class);
@@ -108,7 +118,7 @@ public class WebViewActivity extends Activity {
 		                    	  
 		                    }
 		                    started++;
-		                    Toast.makeText(getApplicationContext(),"Started val: " + started,Toast.LENGTH_LONG).show();
+		                    //Toast.makeText(getApplicationContext(),"Loading... Please Wait! ",Toast.LENGTH_LONG).show();
 		                }
 		            //}
 		         } catch (IOException e) {
