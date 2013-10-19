@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+ 
+    <EditText
+        android:id="@+id/etTextHint"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:lines="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/etSearchHint"/>
+
+    <Button
+        android:id="@+id/Pick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="pick"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="Take a Picture" />
+
+    <Button
+        android:id="@+id/btSpeak"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="search"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="@string/btSpeak"
+        android:drawableRight="@android:drawable/ic_menu_search"
+        tools:context=".VoiceRecognitionActivity" />
+ 
+    <Spinner
+        android:id="@+id/sNoOfMatches"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/saNoOfMatches"
+        android:prompt="@string/sNoOfMatches"/>
+ 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tvTextMatches"
+        android:textStyle="bold" />
+ 
+    <ListView
+        android:id="@+id/lvTextMatches"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
+        <ImageView
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_width="fill_parent"
+        android:layout_height="200.0dp"
+        android:id="@+id/imageView2"
+        android:adjustViewBounds="true" />
+ 
+</LinearLayout>
+<!-- From: file:/Users/anujacharya/Dropbox/workspace_java/HashVoiceV2/res/layout/activity_voice_recognition.xml -->

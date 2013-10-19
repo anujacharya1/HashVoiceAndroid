@@ -52,7 +52,7 @@ public class CameraMainActivity extends Activity {
     DataInputStream inputStream = null;
 
     String pathToOurFile = "/data/file_to_send.mp3";
-    String urlServer = "http://50.59.22.188:17021/photo/";
+    String urlServer = "http://127.0.0.1:8000/photo/";
     String lineEnd = "\r\n";
     String twoHyphens = "--";
     String boundary =  "*****";
@@ -159,7 +159,7 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
     	                Log.d("DEBUGxxxxxxxx",mFileName );
     	                nameValuePairs.add(new BasicNameValuePair("tags", mBestMatch));
     	                nameValuePairs.add(new BasicNameValuePair("uid", count+""));
-    	                post("http://50.59.22.188:17021/photo/", nameValuePairs);
+    	                post(urlServer, nameValuePairs);
     	                count++;
     	            //}
     	        } catch (Exception e) {

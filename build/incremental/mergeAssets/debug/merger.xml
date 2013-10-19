@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="main" >
+        <source path="/Users/anujacharya/Dropbox/workspace_java/HashVoiceV2/assets" />
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="/Users/anujacharya/Dropbox/workspace_java/HashVoiceV2/build-types/debug/assets" />
+    </dataSet>
+
+</merger>

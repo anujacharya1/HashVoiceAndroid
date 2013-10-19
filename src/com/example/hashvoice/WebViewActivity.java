@@ -1,5 +1,7 @@
 package com.example.hashvoice;
  
+import com.example.hashvoice.R;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,8 +26,9 @@ import android.widget.Toast;
 public class WebViewActivity extends Activity {
  
 	private WebView webView;
-	 int started = 0;
+	int started = 0;
 	private boolean state = false;
+    private  static final String localhost_url = "http://127.0.0.1:8000/";
 	
 	private static final String TAG = "WebViewActivity";
  
@@ -51,7 +54,7 @@ public class WebViewActivity extends Activity {
 		
 		webView = (WebView) findViewById(R.id.webView1);
 		webView.getSettings().setJavaScriptEnabled(true);
-		webView.loadUrl("http://50.59.22.188:17021/index");
+		webView.loadUrl(localhost_url+"index");
 		
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy); 
@@ -94,27 +97,46 @@ public class WebViewActivity extends Activity {
 		                    //Log.d(TAG, htmlContent);
 		                    if (htmlContent.contains("Welcome to Flickr!") && null != htmlContent) { 
 		                    	//webView.loadData(htmlContent, "text/html", "utf-8");
-		                    	Thread thread = new Thread()
-		                    	{
-		                    	    @Override
-		                    	    public void run() {
-		                    	        try {
-		                    	        	
-		                    	            //while(true) {
-		                    	                sleep(5000);
-		                    	                 Intent myIntent = new Intent(WebViewActivity.this, CameraMainActivity.class);
-		      		                    	     //myIntent.putExtra("key", value); //Optional parameters
-		      		                    	     WebViewActivity.this.startActivity(myIntent);
-		      		                    	     state = true;
-		      		                    	     //Toast.makeText(getApplicationContext(),"Hurrrah!!! " + started,Toast.LENGTH_LONG).show();
-		                    	            //}
-		                    	        } catch (InterruptedException e) {
-		                    	            e.printStackTrace();
-		                    	        }
-		                    	    }
-		                    	};
+                                Thread th = new Thread(){
+                                    @Override
+                                    public void run(){
+                                        try {
 
-		                    	thread.start();
+                                            //while(true) {
+                                            sleep(5000);
+                                            Intent myIntent = new Intent(WebViewActivity.this, CameraMainActivity.class);
+                                            //myIntent.putExtra("key", value); //Optional parameters
+                                            WebViewActivity.this.startActivity(myIntent);
+                                            state = true;
+                                            //Toast.makeText(getApplicationContext(),"Hurrrah!!! " + started,Toast.LENGTH_LONG).show();
+                                            //}
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                };
+//		                    	Thread thread = new Thread()
+//		                    	{
+//		                    	    @Override
+//		                    	    public void run() {
+//		                    	        try {
+//
+//		                    	            //while(true) {
+//		                    	                sleep(5000);
+//		                    	                 Intent myIntent = new Intent(WebViewActivity.this, CameraMainActivity.class);
+//		      		                    	     //myIntent.putExtra("key", value); //Optional parameters
+//		      		                    	     WebViewActivity.this.startActivity(myIntent);
+//		      		                    	     state = true;
+//		      		                    	     //Toast.makeText(getApplicationContext(),"Hurrrah!!! " + started,Toast.LENGTH_LONG).show();
+//		                    	            //}
+//		                    	        } catch (InterruptedException e) {
+//		                    	            e.printStackTrace();
+//		                    	        }
+//		                    	    }
+//		                    	};
+
+//		                    	thread.start();
+                                th.start();
 		                    	  
 		                    }
 		                    started++;

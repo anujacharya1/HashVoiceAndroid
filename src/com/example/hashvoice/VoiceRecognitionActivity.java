@@ -1,5 +1,7 @@
 package com.example.hashvoice;
 
+import com.example.hashvoice.R;
+
 //import com.example.voicerecognition.R;
 import android.os.Bundle;
 import android.app.Activity;
@@ -52,6 +54,8 @@ public class VoiceRecognitionActivity extends Activity {
  private ListView mlvTextMatches;
  private Spinner msTextMatches;
  private Button mbtSpeak;
+ private static final String localhost_url = "http://127.0.0.1:8000/";
+
  
  @Override
  public void onCreate(Bundle savedInstanceState) {
@@ -258,7 +262,7 @@ intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
 	 
 	 Log.d("searchText 1.1",text);
 	 
-	 String url = "http://50.59.22.188:17021/photosearch/" + text;
+	 String url = localhost_url+ "photosearch/" + text;
 	 HttpClient httpclient = new DefaultHttpClient();
 	 
 	 Log.d("searchText 1.1",url);
@@ -362,7 +366,7 @@ intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
 	 Log.d("Search Q 1 "," getImage");
 	 if(null == name) return;
 	 
-	 String url = "http://50.59.22.188:17021/media/" + name;
+	 String url = localhost_url + "media/" + name;
 	 HttpClient httpclient = new DefaultHttpClient();
 	 // Prepare a request object
 	 HttpGet httpget = new HttpGet(url); 
